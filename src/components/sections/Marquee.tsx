@@ -15,7 +15,7 @@ const items = [
 
 export function Marquee() {
     return (
-        <section className="py-20 bg-brand-gold overflow-hidden">
+        <section className="py-10 bg-brand-gold overflow-hidden">
             <div className="flex whitespace-nowrap overflow-hidden">
                 <motion.div
                     className="flex gap-16 md:gap-32 items-center"

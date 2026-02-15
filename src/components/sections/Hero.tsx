@@ -62,7 +62,7 @@ export function Hero() {
                     className="mb-8 text-5xl font-bold leading-tight tracking-tight text-white md:text-7xl lg:text-8xl"
                 >
                     Engineering Digital <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/100">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/50">
                         Advantage
                     </span>
                 </motion.h1>
