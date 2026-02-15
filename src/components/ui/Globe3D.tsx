@@ -16,7 +16,7 @@ interface Point3D {
 
 export function Globe3D() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const animationFrameRef = useRef<number | undefined>();
+    const animationFrameRef = useRef<number | null>(null);
 
     useEffect(() => {
         const canvas = canvasRef.current;
