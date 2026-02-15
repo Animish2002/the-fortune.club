@@ -59,9 +59,9 @@ export function Navbar() {
             <div className="flex items-center justify-between">
                 <Link
                     href="/"
-                    className="text-xl font-bold tracking-tight text-white transition-opacity hover:opacity-80"
+                    className="text-xl font-bold tracking-tight text-brand-gold transition-opacity hover:opacity-80"
                 >
-                    TheFortune<span className="text-brand-gold">.Club</span>
+                    TheFortune<span className="text-white">.Club</span>
                 </Link>
 
                 {/* Desktop Links */}

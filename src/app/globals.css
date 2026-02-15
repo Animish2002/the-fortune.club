@@ -42,14 +42,7 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-@layer base {
-  body {
-    color: rgb(var(--foreground-rgb));
-    background: rgb(var(--background-start-rgb));
-    font-family: var(--font-inter), sans-serif;
-    overflow-x: hidden;
-  }
-}
+
 
 /* Custom scrollbar for Webkit browsers */
 ::-webkit-scrollbar {
