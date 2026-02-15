@@ -13,7 +13,6 @@ import {
     SheetTitle,
 } from "@/components/ui/sheet";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { ModeToggle } from "@/components/ui/mode-toggle";
 import { ContactOverlay } from "@/components/layout/ContactOverlay";
 
 const navLinks = [
@@ -81,7 +80,6 @@ export function Navbar() {
 
                 {/* Desktop CTA */}
                 <div className="hidden md:flex items-center gap-4">
-                    <ModeToggle />
                     <ContactOverlay>
                         <Button
                             className="rounded-full bg-brand-gold text-black hover:bg-brand-gold/90 hover:text-black hover:scale-105 transition-all duration-300"
@@ -123,10 +121,6 @@ export function Navbar() {
                                     ))}
                                 </div>
                                 <div className="mt-8 flex flex-col gap-6">
-                                    <div className="flex justify-start">
-                                        <span className="text-white/60 mr-4 self-center">Switch Theme</span>
-                                        <ModeToggle />
-                                    </div>
                                     <Button
                                         asChild
                                         size="lg"

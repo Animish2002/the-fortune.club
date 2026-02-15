@@ -4,8 +4,29 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ContactOverlay } from "@/components/layout/ContactOverlay";
+import { useState, useEffect } from "react";
+
+interface Particle {
+    x: number;
+    y: number;
+    duration: number;
+    delay: number;
+}
 
 export function Hero() {
+    const [particles, setParticles] = useState<Particle[]>([]);
+
+    useEffect(() => {
+        // Generate random particle positions only on client-side to avoid hydration errors
+        setParticles(
+            Array.from({ length: 20 }, () => ({
+                x: Math.random() * 1000 - 500,
+                y: Math.random() * 1000 - 500,
+                duration: Math.random() * 5 + 5,
+                delay: Math.random() * 5,
+            }))
+        );
+    }, []);
     return (
         <section className="relative flex h-screen min-h-[800px] w-full flex-col items-center justify-center overflow-hidden px-4">
             {/* Background Elements */}
@@ -41,7 +62,7 @@ export function Hero() {
                     className="mb-8 text-5xl font-bold leading-tight tracking-tight text-white md:text-7xl lg:text-8xl"
                 >
                     Engineering Digital <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/50">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/100">
                         Advantage
                     </span>
                 </motion.h1>
@@ -106,13 +127,13 @@ export function Hero() {
 
             {/* Micro Particles */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                {[...Array(20)].map((_, i) => (
+                {particles.map((particle, i) => (
                     <motion.div
                         key={i}
                         initial={{
                             opacity: 0,
-                            x: Math.random() * 1000 - 500,
-                            y: Math.random() * 1000 - 500,
+                            x: particle.x,
+                            y: particle.y,
                         }}
                         animate={{
                             opacity: [0, 0.5, 0],
@@ -120,9 +141,9 @@ export function Hero() {
                             scale: [0, 1.5, 0],
                         }}
                         transition={{
-                            duration: Math.random() * 5 + 5,
+                            duration: particle.duration,
                             repeat: Infinity,
-                            delay: Math.random() * 5,
+                            delay: particle.delay,
                             ease: "linear",
                         }}
                         className="absolute left-1/2 top-1/2 w-1 h-1 bg-brand-gold/30 rounded-full"

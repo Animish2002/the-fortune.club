@@ -7,6 +7,7 @@ import {
     useState,
     type ReactNode,
 } from "react"
+import { createPortal } from "react-dom"
 import { X } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 
@@ -150,10 +151,18 @@ export function ExpandableScreenContent({
     const { isExpanded, collapse, layoutId, contentRadius, animationDuration } =
         useExpandableScreen()
 
-    return (
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+
+    if (!mounted) return null
+
+    const content = (
         <AnimatePresence>
             {isExpanded && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center">
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center">
                     {/* Backdrop */}
                     <motion.div
                         initial={{ opacity: 0 }}
@@ -201,6 +210,8 @@ export function ExpandableScreenContent({
             )}
         </AnimatePresence>
     )
+
+    return createPortal(content, document.body)
 }
 
 export { useExpandableScreen }

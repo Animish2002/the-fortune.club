@@ -9,7 +9,7 @@ import {
     Sparkles,
     Zap,
     Code2,
-    MessageSquare,
+
     CreditCard,
     Bot,
     Search,
@@ -27,6 +27,8 @@ import {
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { Globe3D } from "@/components/ui/Globe3D";
+import { FaWhatsapp } from "react-icons/fa";
 
 // --- Interfaces ---
 
@@ -45,7 +47,8 @@ interface BentoItem {
     | "icons"
     | "typing"
     | "metrics"
-    | "voice";
+    | "voice"
+    | "globe";
     spotlightItems?: string[];
     timeline?: Array<{ year: string; event: string }>;
     code?: string;
@@ -77,7 +80,7 @@ const bentoItems: BentoItem[] = [
         description:
             "Enterprise-grade architectures scaling seamlessly with cloud-native technologies.",
         href: "#",
-        feature: "spotlight",
+        feature: "globe",
         spotlightItems: [
             "Microservices Architecture",
             "Cloud-Native Systems",
@@ -88,14 +91,16 @@ const bentoItems: BentoItem[] = [
         className: "col-span-1 md:col-span-2 md:row-span-2",
     },
     {
-        id: "ai-agents",
-        title: "AI Agents & Automation",
+        id: "seo",
+        title: "SEO Ranking",
         description:
-            "Intelligent workflows that work while you sleep.",
+            "Dominate search results.",
         href: "#",
-        feature: "typing",
-        typingText:
-            "const agent = new FortuneAI({\n  model: 'gpt-4o',\n  capabilities: ['coding', 'analysis'],\n  memory: true\n});\n\nawait agent.automate('workflow_v2');",
+        feature: "metrics",
+        metrics: [
+            { label: "Organic Traffic", value: 320, suffix: "%", color: "gold" },
+            { label: "Page Speed", value: 99, suffix: "/100", color: "gold" }
+        ],
         className: "col-span-1 md:col-span-1 md:row-span-1",
     },
     {
@@ -125,16 +130,14 @@ const bentoItems: BentoItem[] = [
         className: "col-span-1 md:col-span-1 md:row-span-1",
     },
     {
-        id: "seo",
-        title: "SEO Ranking",
+        id: "ai-agents",
+        title: "AI Agents & Automation",
         description:
-            "Dominate search results.",
+            "Intelligent workflows that work while you sleep.",
         href: "#",
-        feature: "metrics",
-        metrics: [
-            { label: "Organic Traffic", value: 320, suffix: "%", color: "gold" },
-            { label: "Page Speed", value: 99, suffix: "/100", color: "gold" }
-        ],
+        feature: "typing",
+        typingText:
+            "const agent = new FortuneAI({\n  model: 'gpt-4o',\n  capabilities: ['coding', 'analysis'],\n  memory: true\n});\n\nawait agent.automate('workflow_v2');",
         className: "col-span-1 md:col-span-1 md:row-span-1",
     },
 ];
@@ -245,7 +248,7 @@ const CounterAnimation = ({
 const IconsFeature = () => (
     <div className="mt-4 grid grid-cols-2 gap-3">
         <div className="flex flex-col items-center gap-2 rounded-lg bg-white/5 p-3 border border-white/5">
-            <MessageSquare className="h-6 w-6 text-green-500" />
+            <FaWhatsapp className="h-6 w-6 text-green-500" />
             <span className="text-xs text-white/60">WhatsApp</span>
         </div>
         <div className="flex flex-col items-center gap-2 rounded-lg bg-white/5 p-3 border border-white/5">
@@ -400,9 +403,10 @@ const BentoCard = ({ item, className }: { item: BentoItem; className?: string })
                 <div className="relative z-10 flex h-full flex-col">
                     <div className="flex items-start justify-between mb-4">
                         <div className="p-2 rounded-lg bg-white/5 border border-white/5 text-brand-gold group-hover:scale-110 transition-transform duration-300">
+                            {item.feature === 'globe' && <Globe className="h-5 w-5" />}
                             {item.feature === 'spotlight' && <Layout className="h-5 w-5" />}
                             {item.feature === 'typing' && <Bot className="h-5 w-5" />}
-                            {item.feature === 'icons' && <MessageSquare className="h-5 w-5" />}
+                            {item.feature === 'icons' && <FaWhatsapp className="h-5 w-5" />}
                             {item.feature === 'chart' && <CreditCard className="h-5 w-5" />}
                             {item.feature === 'metrics' && <Search className="h-5 w-5" />}
                             {item.feature === 'voice' && <Mic className="h-5 w-5" />}
@@ -418,6 +422,18 @@ const BentoCard = ({ item, className }: { item: BentoItem; className?: string })
                     </p>
 
                     <div className="mt-auto">
+                        {item.feature === "globe" && (
+                            <div className="flex flex-col md:flex-row gap-6 items-center">
+                                <div className="w-full md:w-1/2 h-80 md:h-96">
+                                    <Globe3D />
+                                </div>
+                                {item.spotlightItems && (
+                                    <div className="w-full md:w-1/2">
+                                        <SpotlightFeature items={item.spotlightItems} />
+                                    </div>
+                                )}
+                            </div>
+                        )}
                         {item.feature === "spotlight" && item.spotlightItems && (
                             <SpotlightFeature items={item.spotlightItems} />
                         )}
@@ -479,7 +495,7 @@ export function Services() {
                     {/* 1. Software Solutions (Large) */}
                     <BentoCard item={bentoItems[0]} className="md:col-span-2 md:row-span-2" />
 
-                    {/* 2. AI Agents */}
+                    {/* 2. SEO */}
                     <BentoCard item={bentoItems[1]} className="md:col-span-1 md:row-span-1" />
 
                     {/* 3. WhatsApp */}
@@ -488,8 +504,10 @@ export function Services() {
                     {/* 4. Payment */}
                     <BentoCard item={bentoItems[3]} className="md:col-span-1 md:row-span-1" />
 
-                    {/* 5. SEO */}
+                    {/* 5. AI Agents */}
                     <BentoCard item={bentoItems[4]} className="md:col-span-1 md:row-span-1" />
+
+
 
                     {/* 6. Voice AI (New Feature) */}
                     <BentoCard
