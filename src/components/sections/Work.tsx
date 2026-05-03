@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
@@ -195,11 +195,35 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
 
 export function Work() {
     const targetRef = useRef<HTMLDivElement>(null);
+    const trackRef = useRef<HTMLDivElement>(null);
+    const [scrollDistance, setScrollDistance] = useState(0);
+
     const { scrollYProgress } = useScroll({ target: targetRef });
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-82%"]);
+
+    // Pixel-based x: moves exactly as far as the track overflows the viewport
+    const x = useTransform(scrollYProgress, [0, 1], [0, -scrollDistance]);
+
+    useEffect(() => {
+        const measure = () => {
+            if (!trackRef.current || !targetRef.current) return;
+            const dist = trackRef.current.scrollWidth - window.innerWidth;
+            setScrollDistance(dist);
+            // Set section height = viewport height + scroll distance
+            // so the sticky element stays pinned for exactly that long
+            targetRef.current.style.height = `calc(100vh + ${dist}px)`;
+        };
+
+        // Delay one frame so the track has rendered at full width
+        const raf = requestAnimationFrame(measure);
+        window.addEventListener("resize", measure);
+        return () => {
+            cancelAnimationFrame(raf);
+            window.removeEventListener("resize", measure);
+        };
+    }, []);
 
     return (
-        <section ref={targetRef} id="work" className="relative h-[400vh] bg-brand-dark">
+        <section ref={targetRef} id="work" className="relative bg-brand-dark" style={{ height: "400vh" }}>
             <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
 
                 {/* Section header */}
@@ -237,6 +261,7 @@ export function Work() {
 
                 {/* Cards track */}
                 <motion.div
+                    ref={trackRef}
                     style={{ x }}
                     className="flex items-center gap-5 pl-[8vw] md:pl-[26vw]"
                 >

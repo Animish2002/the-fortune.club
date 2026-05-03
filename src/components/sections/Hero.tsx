@@ -77,7 +77,7 @@ export function Hero() {
                     </span>
                     <Sparkles className="h-3.5 w-3.5 text-brand-gold" />
                     <span className="text-xs font-semibold uppercase tracking-widest text-brand-gold/90">
-                        Accepting New Clients — Q3 2025
+                        Accepting New Clients — Q1 2026
                     </span>
                 </motion.div>
 
