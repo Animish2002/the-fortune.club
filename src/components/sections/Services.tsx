@@ -1,77 +1,152 @@
 "use client";
 
 import { motion, useMotionValue, useTransform } from "framer-motion";
-import { ArrowUpRight, Zap, BarChart3 } from "lucide-react";
+import { ArrowUpRight, Zap, BarChart3, SlidersHorizontal, Mail, MessageCircle } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
+import { FaInstagram, FaXTwitter, FaLinkedinIn, FaFacebook } from "react-icons/fa6";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 // ─── Visual Mocks ────────────────────────────────────────────────────────────
 
+const AI_TOOLS = [
+    { name: "Claude Sonnet",    role: "Architecture & code review",   color: "#D97706" },
+    { name: "GitHub Copilot",   role: "Inline completion & refactor", color: "#6366f1" },
+    { name: "Cursor",           role: "AI-native editor",             color: "#10b981" },
+    { name: "GPT-4o",           role: "Planning & documentation",     color: "#0ea5e9" },
+    { name: "v0 by Vercel",     role: "UI component generation",      color: "#8b5cf6" },
+];
+
 function CodeMock() {
     const [dots, setDots] = useState(0);
+    const [activeAI, setActiveAI] = useState(0);
+
     useEffect(() => {
         const t = setInterval(() => setDots((d) => (d + 1) % 4), 600);
         return () => clearInterval(t);
     }, []);
 
+    useEffect(() => {
+        const t = setInterval(() => setActiveAI((a) => (a + 1) % AI_TOOLS.length), 2000);
+        return () => clearInterval(t);
+    }, []);
+
+    const stats = [
+        { value: "47+",  label: "Projects Shipped" },
+        { value: "3×",   label: "Faster Delivery"  },
+        { value: "100%", label: "QA Pass Rate"      },
+    ];
+
     return (
-        <div className="rounded-xl overflow-hidden border border-white/8 bg-[#0d1117] font-mono text-[11px] w-full">
-            <div className="flex items-center gap-1.5 px-3 py-2 bg-[#161b22] border-b border-white/5">
-                <div className="h-2.5 w-2.5 rounded-full bg-red-500/60" />
-                <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/60" />
-                <div className="h-2.5 w-2.5 rounded-full bg-green-500/60" />
-                <div className="ml-3 flex gap-0">
-                    <span className="px-3 py-0.5 text-brand-gold border-b border-brand-gold text-[10px]">app.ts</span>
-                    <span className="px-3 py-0.5 text-white/30 text-[10px]">api/routes.ts</span>
+        <div className="flex h-full w-full flex-col gap-3 self-stretch">
+            {/* Stats row */}
+            <div className="grid grid-cols-3 gap-2">
+                {stats.map((s) => (
+                    <div key={s.label} className="rounded-xl border border-white/6 bg-white/3 px-2 py-2.5 text-center">
+                        <div className="font-display text-base font-bold text-brand-gold">{s.value}</div>
+                        <div className="mt-0.5 text-[9px] leading-tight text-white/35">{s.label}</div>
+                    </div>
+                ))}
+            </div>
+
+            {/* Code editor */}
+            <div className="overflow-hidden rounded-xl border border-white/8 bg-[#0d1117] font-mono text-[11px]">
+                <div className="flex items-center gap-1.5 border-b border-white/5 bg-[#161b22] px-3 py-2">
+                    <div className="h-2.5 w-2.5 rounded-full bg-red-500/60" />
+                    <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/60" />
+                    <div className="h-2.5 w-2.5 rounded-full bg-green-500/60" />
+                    <div className="ml-3 flex">
+                        <span className="border-b border-brand-gold px-3 py-0.5 text-[10px] text-brand-gold">app.ts</span>
+                        <span className="px-3 py-0.5 text-[10px] text-white/30">api/routes.ts</span>
+                    </div>
+                </div>
+                <div className="space-y-1.5 p-3 leading-relaxed">
+                    <div>
+                        <span className="text-purple-400">import</span>
+                        <span className="text-white/60"> &#123; FortuneAI &#125; </span>
+                        <span className="text-purple-400">from</span>
+                        <span className="text-green-400"> &apos;@fortune/sdk&apos;</span>
+                    </div>
+                    <div className="h-1" />
+                    <div>
+                        <span className="text-blue-400">const</span>
+                        <span className="text-white"> agent </span>
+                        <span className="text-white/40">=</span>
+                        <span className="text-yellow-300"> new FortuneAI</span>
+                        <span className="text-white/60">(&#123;</span>
+                    </div>
+                    <div className="pl-4">
+                        <span className="text-sky-300">model</span>
+                        <span className="text-white/40">: </span>
+                        <span className="text-green-400">&apos;claude-sonnet-4&apos;</span>
+                        <span className="text-white/40">,</span>
+                    </div>
+                    <div className="pl-4">
+                        <span className="text-sky-300">mode</span>
+                        <span className="text-white/40">: </span>
+                        <span className="text-green-400">&apos;build-and-test&apos;</span>
+                    </div>
+                    <div><span className="text-white/60">&#125;)</span></div>
+                    <div className="h-1" />
+                    <div>
+                        <span className="text-purple-400">await</span>
+                        <span className="text-white"> agent</span>
+                        <span className="text-white/40">.</span>
+                        <span className="text-yellow-300">buildFeature</span>
+                        <span className="text-white/60">(</span>
+                        <span className="text-green-400">&apos;payment-module&apos;</span>
+                        <span className="text-white/60">)</span>
+                        <span className="text-white/30">{".".repeat(dots)}</span>
+                    </div>
+                </div>
+                <div className="flex items-center justify-between px-3 pb-3">
+                    <div className="inline-flex items-center gap-1.5 rounded-full border border-brand-gold/20 bg-brand-gold/10 px-2.5 py-1 text-[10px] text-brand-gold">
+                        <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-brand-gold" />
+                        AI Copilot Active
+                    </div>
+                    <span className="text-[10px] text-green-400">3× faster delivery</span>
                 </div>
             </div>
-            <div className="p-3 space-y-1.5 leading-relaxed">
-                <div>
-                    <span className="text-purple-400">import</span>
-                    <span className="text-white/60"> &#123; FortuneAI &#125; </span>
-                    <span className="text-purple-400">from</span>
-                    <span className="text-green-400"> &apos;@fortune/sdk&apos;</span>
+
+            {/* AI Tools stack */}
+            <div className="flex-1 overflow-hidden rounded-xl border border-white/8 bg-white/2 p-3">
+                <div className="mb-2.5 flex items-center gap-2">
+                    <span className="text-[9px] uppercase tracking-widest text-white/30">AI Stack</span>
+                    <div className="h-px flex-1 bg-white/5" />
+                    <span className="text-[9px] text-brand-gold">{AI_TOOLS.length} systems active</span>
                 </div>
-                <div className="h-1" />
-                <div>
-                    <span className="text-blue-400">const</span>
-                    <span className="text-white"> agent </span>
-                    <span className="text-white/40">=</span>
-                    <span className="text-yellow-300"> new FortuneAI</span>
-                    <span className="text-white/60">(&#123;</span>
+                <div className="space-y-1.5">
+                    {AI_TOOLS.map((tool, i) => (
+                        <div
+                            key={i}
+                            className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 transition-all duration-500"
+                            style={{
+                                background: activeAI === i ? `${tool.color}12` : "rgba(255,255,255,0.02)",
+                                border: `1px solid ${activeAI === i ? `${tool.color}35` : "rgba(255,255,255,0.06)"}`,
+                            }}
+                        >
+                            <div
+                                className="h-2 w-2 shrink-0 rounded-full"
+                                style={{
+                                    background: tool.color,
+                                    boxShadow: activeAI === i ? `0 0 8px ${tool.color}90` : "none",
+                                    transition: "box-shadow 0.5s ease",
+                                }}
+                            />
+                            <span
+                                className="flex-1 text-[10px] font-semibold transition-colors duration-500"
+                                style={{ color: activeAI === i ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.45)" }}
+                            >
+                                {tool.name}
+                            </span>
+                            <span className="text-[9px] text-white/25">{tool.role}</span>
+                            {activeAI === i && (
+                                <span className="animate-pulse text-[9px] font-semibold text-brand-gold">● live</span>
+                            )}
+                        </div>
+                    ))}
                 </div>
-                <div className="pl-4">
-                    <span className="text-sky-300">model</span>
-                    <span className="text-white/40">: </span>
-                    <span className="text-green-400">&apos;claude-3-5&apos;</span>
-                    <span className="text-white/40">,</span>
-                </div>
-                <div className="pl-4">
-                    <span className="text-sky-300">mode</span>
-                    <span className="text-white/40">: </span>
-                    <span className="text-green-400">&apos;build-and-test&apos;</span>
-                </div>
-                <div><span className="text-white/60">&#125;)</span></div>
-                <div className="h-1" />
-                <div>
-                    <span className="text-purple-400">await</span>
-                    <span className="text-white"> agent</span>
-                    <span className="text-white/40">.</span>
-                    <span className="text-yellow-300">buildFeature</span>
-                    <span className="text-white/60">(</span>
-                    <span className="text-green-400">&apos;payment-module&apos;</span>
-                    <span className="text-white/60">)</span>
-                    <span className="text-white/30">{".".repeat(dots)}</span>
-                </div>
-            </div>
-            <div className="px-3 pb-3 flex items-center justify-between">
-                <div className="inline-flex items-center gap-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/20 px-2.5 py-1 text-[10px] text-brand-gold">
-                    <span className="h-1.5 w-1.5 rounded-full bg-brand-gold animate-pulse inline-block" />
-                    AI Copilot Active
-                </div>
-                <span className="text-[10px] text-green-400">3× faster delivery</span>
             </div>
         </div>
     );
@@ -117,76 +192,180 @@ function WhatsAppMock() {
 }
 
 function SocialMock() {
+    const [count, setCount] = useState(0);
+    const [hovered, setHovered] = useState<number | null>(null);
+    const [inView, setInView] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+    const TARGET = 12400;
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => { if (entry.isIntersecting) setInView(true); },
+            { threshold: 0.3 }
+        );
+        if (ref.current) observer.observe(ref.current);
+        return () => observer.disconnect();
+    }, []);
+
+    useEffect(() => {
+        if (!inView) return;
+        let cur = 0;
+        const step = Math.ceil(TARGET / 60);
+        const t = setInterval(() => {
+            cur += step;
+            if (cur >= TARGET) { setCount(TARGET); clearInterval(t); }
+            else setCount(cur);
+        }, 16);
+        return () => clearInterval(t);
+    }, [inView]);
+
     const posts = [
-        "from-pink-500 to-rose-400",
-        "from-blue-500 to-indigo-400",
-        "from-purple-500 to-violet-400",
-        "from-amber-400 to-orange-500",
-        "from-teal-500 to-cyan-400",
-        "from-green-500 to-emerald-400",
+        { gradient: "from-indigo-500 to-violet-500",  Icon: FaInstagram,  type: "Photo",    time: "9:00 AM"  },
+        { gradient: "from-pink-500 to-rose-500",       Icon: FaXTwitter,   type: "Thread",   time: "10:30 AM" },
+        { gradient: "from-cyan-500 to-sky-500",        Icon: FaLinkedinIn, type: "Article",  time: "11:00 AM" },
+        { gradient: "from-emerald-500 to-green-500",   Icon: FaInstagram,  type: "Reel",     time: "1:00 PM"  },
+        { gradient: "from-amber-400 to-orange-500",    Icon: FaFacebook,   type: "Post",     time: "2:00 PM"  },
+        { gradient: "from-violet-500 to-purple-600",   Icon: FaInstagram,  type: "Story",    time: "3:30 PM"  },
+        { gradient: "from-rose-500 to-red-600",        Icon: FaXTwitter,   type: "Poll",     time: "5:00 PM"  },
+        { gradient: "from-sky-500 to-blue-600",        Icon: FaLinkedinIn, type: "Carousel", time: "6:00 PM"  },
+        { gradient: "from-teal-400 to-emerald-500",    Icon: FaInstagram,  type: "Collab",   time: "8:00 PM"  },
     ];
+
     return (
-        <div className="space-y-3 w-full">
+        <div ref={ref} className="space-y-3 w-full">
             <div className="flex items-center justify-between">
                 <span className="text-[10px] uppercase tracking-wider text-white/35">Scheduled Posts</span>
-                <span className="px-2 py-0.5 rounded-full bg-brand-gold/15 border border-brand-gold/25 text-[9px] text-brand-gold font-medium">
+                <span className="rounded-full border border-brand-gold/25 bg-brand-gold/15 px-2 py-0.5 text-[9px] font-medium text-brand-gold">
                     AI Generated
                 </span>
             </div>
-            <div className="grid grid-cols-3 gap-1.5">
-                {posts.map((g, i) => (
-                    <motion.div
+
+            <div className="grid grid-cols-3 gap-1">
+                {posts.map((post, i) => (
+                    <div
                         key={i}
-                        whileHover={{ scale: 1.05 }}
-                        className={`aspect-square rounded-lg bg-linear-to-br ${g} opacity-75`}
-                    />
+                        onMouseEnter={() => setHovered(i)}
+                        onMouseLeave={() => setHovered(null)}
+                        className={`relative aspect-square cursor-pointer overflow-hidden rounded-lg bg-linear-to-br ${post.gradient}`}
+                    >
+                        {/* Platform icon */}
+                        <div className="absolute left-1.5 top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm">
+                            <post.Icon className="h-2.5 w-2.5 text-white" />
+                        </div>
+                        {/* Post type + time */}
+                        <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/75 to-transparent px-1.5 pb-1.5 pt-3">
+                            <div className="flex items-end justify-between">
+                                <span className="text-[8px] font-semibold leading-none text-white">{post.type}</span>
+                                <span className="text-[7px] leading-none text-white/55">{post.time}</span>
+                            </div>
+                        </div>
+                        {/* Hover overlay */}
+                        <div
+                            className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/75"
+                            style={{ transform: hovered === i ? "translateY(0)" : "translateY(100%)", transition: "transform 0.25s ease" }}
+                        >
+                            <span className="text-[8px] font-bold text-brand-gold">AI Generated ✓</span>
+                        </div>
+                    </div>
                 ))}
             </div>
-            <div className="space-y-1.5">
-                <div className="flex justify-between text-[10px]">
-                    <span className="text-white/40">Organic Reach</span>
-                    <span className="text-brand-gold font-semibold">+320%</span>
+
+            <div className="flex items-center justify-between rounded-xl border border-white/7 bg-white/4 px-3 py-2.5">
+                <div>
+                    <div className="text-[10px] text-white/40">Followers</div>
+                    <div className="font-display text-xl font-bold tabular-nums tracking-tight text-white">
+                        {count.toLocaleString("en-IN")}
+                    </div>
                 </div>
-                <div className="h-1.5 rounded-full bg-white/8 overflow-hidden">
-                    <motion.div
-                        initial={{ width: 0 }}
-                        whileInView={{ width: "78%" }}
-                        transition={{ duration: 1.2, ease: "easeOut" }}
-                        className="h-full rounded-full bg-brand-gold"
-                    />
-                </div>
+                <div className="rounded-lg bg-green-500/10 px-2.5 py-1 text-[11px] text-green-400">↑ 18% this week</div>
             </div>
         </div>
     );
 }
 
 function WorkflowMock() {
+    const [activeNode, setActiveNode] = useState(-1);
+
+    useEffect(() => {
+        let i = 0;
+        const t = setInterval(() => {
+            setActiveNode(i % 4);
+            i++;
+        }, 900);
+        return () => clearInterval(t);
+    }, []);
+
     const nodes = [
-        { label: "Lead Captured", color: "bg-blue-500/15 border-blue-500/30 text-blue-300" },
-        { label: "Score ≥ 80?", color: "bg-yellow-500/15 border-yellow-500/30 text-yellow-300" },
-        { label: "Notify Sales", color: "bg-green-500/15 border-green-500/30 text-green-300" },
-        { label: "Add to CRM", color: "bg-purple-500/15 border-purple-500/30 text-purple-300" },
+        { Icon: Zap,               label: "Trigger", sub: "New Lead",    color: "#6366f1" },
+        { Icon: SlidersHorizontal, label: "Filter",  sub: "Score > 60", color: "#f59e0b" },
+        { Icon: Mail,              label: "Action",  sub: "Send Email", color: "#10b981" },
+        { Icon: MessageCircle,     label: "Notify",  sub: "WhatsApp",   color: "#D4AF37" },
     ];
+
     return (
-        <div className="flex flex-col items-center gap-0.5 w-full">
-            {nodes.map((n, i) => (
-                <div key={i} className="flex flex-col items-center w-full">
-                    <motion.div
-                        initial={{ opacity: 0, x: -10 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                        className={`w-full px-3 py-2 rounded-lg border text-[10px] font-medium text-center ${n.color}`}
-                    >
-                        {n.label}
-                    </motion.div>
-                    {i < nodes.length - 1 && (
-                        <div className="flex flex-col items-center">
-                            <div className="w-px h-2 bg-white/15" />
-                            <div className="text-white/20 text-[8px]">▼</div>
+        <div className="flex flex-col gap-5 w-full">
+            {/* Nodes + flex connectors — mt-[23px] aligns line center with icon center (48px/2 - 1.5px/2) */}
+            <div className="flex items-start w-full">
+                {nodes.map((node, i) => (
+                    <Fragment key={i}>
+                        {/* Node */}
+                        <div className="flex shrink-0 flex-col items-center gap-2">
+                            <div
+                                className="flex h-12 w-12 items-center justify-center rounded-xl"
+                                style={{
+                                    background: activeNode >= i ? `${node.color}20` : "rgba(255,255,255,0.04)",
+                                    border: `1.5px solid ${activeNode >= i ? node.color : "rgba(255,255,255,0.08)"}`,
+                                    boxShadow: activeNode >= i ? `0 0 18px ${node.color}45` : "none",
+                                    transition: "all 0.5s ease",
+                                }}
+                            >
+                                <node.Icon
+                                    className="h-5 w-5"
+                                    style={{ color: activeNode >= i ? node.color : "rgba(255,255,255,0.3)", transition: "color 0.5s ease" }}
+                                />
+                            </div>
+                            <div className="text-center">
+                                <div
+                                    className="text-[10px] font-semibold"
+                                    style={{ color: activeNode >= i ? "white" : "rgba(255,255,255,0.4)", transition: "color 0.4s ease" }}
+                                >
+                                    {node.label}
+                                </div>
+                                <div className="text-[9px] text-white/30">{node.sub}</div>
+                            </div>
                         </div>
-                    )}
-                </div>
-            ))}
+
+                        {/* Connector — only between nodes */}
+                        {i < nodes.length - 1 && (
+                            <div className="relative flex-1 shrink" style={{ marginTop: "23px", height: "1.5px" }}>
+                                {/* Dashed track */}
+                                <div
+                                    className="absolute inset-0"
+                                    style={{
+                                        backgroundImage: "repeating-linear-gradient(to right, rgba(255,255,255,0.12) 0px, rgba(255,255,255,0.12) 5px, transparent 5px, transparent 10px)",
+                                    }}
+                                />
+                                {/* Colored fill — grows left-to-right when lit */}
+                                <div
+                                    className="absolute inset-y-0 left-0"
+                                    style={{
+                                        width: activeNode > i ? "100%" : "0%",
+                                        background: node.color,
+                                        boxShadow: activeNode > i ? `0 0 6px ${node.color}70` : "none",
+                                        transition: "width 0.5s ease, box-shadow 0.4s ease",
+                                    }}
+                                />
+                            </div>
+                        )}
+                    </Fragment>
+                ))}
+            </div>
+
+            {/* Status bar */}
+            <div className="flex items-center gap-2 rounded-xl border border-green-500/15 bg-green-500/8 px-3 py-2">
+                <div className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-green-400 shadow-[0_0_6px_#4ade80]" />
+                <span className="text-[11px] text-green-400">Workflow active · 2,841 runs today</span>
+            </div>
         </div>
     );
 }
@@ -273,26 +452,80 @@ function TicketMock() {
 }
 
 function HRMSMock() {
+    const [rowsVisible, setRowsVisible] = useState(0);
+    const [showToast, setShowToast] = useState(false);
+    const [inView, setInView] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => { if (entry.isIntersecting) setInView(true); },
+            { threshold: 0.3 }
+        );
+        if (ref.current) observer.observe(ref.current);
+        return () => observer.disconnect();
+    }, []);
+
+    useEffect(() => {
+        if (!inView) return;
+        let r = 0;
+        const interval = setInterval(() => {
+            r++;
+            setRowsVisible(r);
+            if (r >= 3) clearInterval(interval);
+        }, 200);
+        const toastTimer = setTimeout(() => setShowToast(true), 1200);
+        return () => { clearInterval(interval); clearTimeout(toastTimer); };
+    }, [inView]);
+
     const rows = [
-        { name: "Amit Sharma", role: "Dev Lead", salary: "₹85,000", status: "Present", s: "bg-green-500/15 text-green-400" },
-        { name: "Priya Mehta", role: "Designer", salary: "₹65,000", status: "Present", s: "bg-green-500/15 text-green-400" },
-        { name: "Rahul Gupta", role: "Manager", salary: "₹95,000", status: "On Leave", s: "bg-orange-500/15 text-orange-400" },
+        { name: "Amit Sharma", role: "Dev Lead", salary: "₹85,000", status: "Present",  present: true },
+        { name: "Priya Mehta", role: "Designer", salary: "₹65,000", status: "Present",  present: true },
+        { name: "Rahul Gupta", role: "Manager",  salary: "₹95,000", status: "On Leave", present: false },
     ];
+
     return (
-        <div className="w-full space-y-1.5">
-            <div className="grid grid-cols-4 gap-2 px-2 pb-1 border-b border-white/5">
+        <div ref={ref} className="relative w-full space-y-1.5 overflow-hidden pb-1">
+            <div className="grid grid-cols-4 gap-2 border-b border-white/5 px-2 pb-1">
                 {["Employee", "Role", "Salary", "Status"].map((h) => (
                     <div key={h} className="text-[9px] uppercase tracking-wider text-white/25">{h}</div>
                 ))}
             </div>
-            {rows.map((r) => (
-                <div key={r.name} className="grid grid-cols-4 gap-2 rounded-xl bg-white/4 border border-white/5 px-2 py-2 items-center">
-                    <div className="text-[10px] text-white font-medium truncate">{r.name}</div>
-                    <div className="text-[10px] text-white/40 truncate">{r.role}</div>
-                    <div className="text-[10px] text-brand-gold font-semibold">{r.salary}</div>
-                    <div className={`text-[9px] px-1.5 py-0.5 rounded-full font-semibold text-center ${r.s}`}>{r.status}</div>
+
+            {rows.map((r, i) => (
+                <div
+                    key={r.name}
+                    className="grid grid-cols-4 gap-2 items-center rounded-xl border border-white/5 bg-white/4 px-2 py-2"
+                    style={{
+                        opacity: rowsVisible > i ? 1 : 0,
+                        transform: rowsVisible > i ? "translateY(0)" : "translateY(8px)",
+                        transition: "opacity 0.3s ease, transform 0.3s ease",
+                    }}
+                >
+                    <div className="truncate text-[10px] font-medium text-white">{r.name}</div>
+                    <div className="truncate text-[10px] text-white/40">{r.role}</div>
+                    <div className="text-[10px] font-semibold text-brand-gold">{r.salary}</div>
+                    <div className={cn(
+                        "rounded-full px-1.5 py-0.5 text-center text-[9px] font-semibold",
+                        r.present ? "bg-green-500/15 text-green-400" : "bg-orange-500/15 text-orange-400"
+                    )}>
+                        {r.status}
+                    </div>
                 </div>
             ))}
+
+            {/* Slide-up toast */}
+            <div
+                className="absolute bottom-0 left-1/2 flex items-center gap-2 whitespace-nowrap rounded-xl border border-green-500/30 bg-black/90 px-4 py-2 shadow-xl"
+                style={{
+                    transform: `translateX(-50%) translateY(${showToast ? "0" : "60px"})`,
+                    transition: "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+                }}
+            >
+                <div className="flex h-5 w-5 items-center justify-center rounded-full border border-green-500/30 bg-green-500/15 text-[10px]">✓</div>
+                <span className="text-[11px] font-semibold text-green-400">Payroll Processed</span>
+                <span className="text-[11px] text-white/50">₹2,45,000 disbursed</span>
+            </div>
         </div>
     );
 }
@@ -307,6 +540,7 @@ interface CardDef {
     visual: React.ReactNode;
     className?: string;
     visualBg?: string;
+    visualAlign?: string;
     href?: string;
 }
 
@@ -337,7 +571,8 @@ function BentoCard({ card }: { card: CardDef }) {
             >
                 {/* Visual area */}
                 <div className={cn(
-                    "relative flex-1 overflow-hidden p-4 flex items-center justify-center min-h-45",
+                    "relative flex-1 overflow-hidden p-4 flex min-h-45",
+                    card.visualAlign ?? "items-center justify-center",
                     card.visualBg ?? "bg-[#111111]"
                 )}>
                     {card.visual}
@@ -378,6 +613,7 @@ const cards: CardDef[] = [
         icon: <Code2 className="h-4 w-4" />,
         visual: <CodeMock />,
         visualBg: "bg-[#0d1117]",
+        visualAlign: "items-start",
         className: "md:col-span-2 md:row-span-2",
     },
     {

@@ -1,141 +1,209 @@
 "use client";
 
-import { TextureButton } from "@/components/ui/texture-button";
-import {
-    TextureCardStyled,
-    TextureCardHeader,
-    TextureCardTitle,
-    TextureCardContent,
-    TextureCardFooter,
-    TextureSeparator,
-} from "@/components/ui/texture-card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { ArrowRight, Mail, MapPin, CalendarDays, ArrowUpRight, Send } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const CAL_LINK = "https://cal.com/thefortune-club";
+
+const contactInfo = [
+    {
+        icon: Mail,
+        label: "Email Us",
+        value: "hello@thefortune.club",
+        href: "mailto:hello@thefortune.club",
+    },
+    {
+        icon: MapPin,
+        label: "Based In",
+        value: "Mumbai, India — serving clients globally",
+        href: null,
+    },
+];
 
 export function Contact() {
+    const [form, setForm] = useState({ name: "", email: "", message: "" });
+    const [sent, setSent] = useState(false);
+
+    function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        setSent(true);
+    }
+
     return (
-        <section id="contact" className="py-24 bg-neutral-950 relative overflow-hidden">
-            {/* Background Elements */}
-            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.05)_0%,transparent_50%)]" />
+        <section id="contact" className="py-28 px-4 bg-brand-dark overflow-hidden relative">
+            {/* Background glow */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-64 w-96 rounded-full bg-brand-gold/6 blur-[100px] pointer-events-none" />
 
-            <div className="max-w-6xl mx-auto px-4 relative z-10">
-                <div className="flex flex-col md:flex-row gap-12 items-center">
+            <div className="max-w-5xl mx-auto relative z-10">
 
-                    {/* Left Side: Text Info */}
-                    <div className="flex-1 space-y-8">
-                        <div>
-                            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                                Let's Build Your <br />
-                                <span className="text-brand-gold">Digital Fortune</span>
-                            </h2>
-                            <p className="text-neutral-400 text-lg max-w-md">
-                                Ready to transform your digital presence? Reach out to us and let's discuss how we can elevate your brand.
-                            </p>
-                        </div>
+                {/* Header */}
+                <div className="mb-14 text-center">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        className="mb-5 inline-flex items-center gap-2 rounded-full border border-brand-gold/20 bg-brand-gold/8 px-4 py-1.5"
+                    >
+                        <span className="text-xs font-semibold uppercase tracking-widest text-brand-gold">Get In Touch</span>
+                    </motion.div>
 
-                        <div className="space-y-6">
-                            <div className="flex items-center gap-4">
-                                <div className="p-3 bg-white/5 rounded-full border border-white/10">
-                                    <Mail className="w-6 h-6 text-brand-gold" />
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="font-display text-4xl md:text-5xl font-bold tracking-[-0.02em] leading-[1.1] text-white mb-4"
+                    >
+                        Let&apos;s build your{" "}
+                        <span className="text-gold-shimmer">digital fortune</span>
+                    </motion.h2>
+
+                    <motion.p
+                        initial={{ opacity: 0, y: 14 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.1 }}
+                        className="text-white/45 max-w-md mx-auto text-base leading-relaxed"
+                    >
+                        Tell us what you&apos;re building. We&apos;ll respond within 24 hours with a clear plan and honest pricing.
+                    </motion.p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+
+                    {/* Left — info + cal.com */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        className="md:col-span-2 flex flex-col gap-5"
+                    >
+                        {/* Contact info cards */}
+                        {contactInfo.map((item) => (
+                            <div
+                                key={item.label}
+                                className="flex items-start gap-4 rounded-2xl border border-white/8 bg-white/2 p-5"
+                            >
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-brand-gold/20 bg-brand-gold/8">
+                                    <item.icon className="h-4 w-4 text-brand-gold" />
                                 </div>
                                 <div>
-                                    <h4 className="text-white font-semibold">Email Us</h4>
-                                    <p className="text-neutral-500">hello@thefortune.club</p>
+                                    <div className="text-[11px] uppercase tracking-wider text-white/30 mb-0.5">{item.label}</div>
+                                    {item.href ? (
+                                        <a href={item.href} className="text-sm font-medium text-white hover:text-brand-gold transition-colors">
+                                            {item.value}
+                                        </a>
+                                    ) : (
+                                        <p className="text-sm font-medium text-white">{item.value}</p>
+                                    )}
                                 </div>
                             </div>
+                        ))}
 
-                            <div className="flex items-center gap-4">
-                                <div className="p-3 bg-white/5 rounded-full border border-white/10">
-                                    <Phone className="w-6 h-6 text-brand-gold" />
-                                </div>
-                                <div>
-                                    <h4 className="text-white font-semibold">Call Us</h4>
-                                    <p className="text-neutral-500">+1 (555) 123-4567</p>
-                                </div>
-                            </div>
-
-                            <div className="flex items-center gap-4">
-                                <div className="p-3 bg-white/5 rounded-full border border-white/10">
-                                    <MapPin className="w-6 h-6 text-brand-gold" />
-                                </div>
-                                <div>
-                                    <h4 className="text-white font-semibold">Visit Us</h4>
-                                    <p className="text-neutral-500">123 Innovation Dr, Tech City</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Right Side: Contact Form */}
-                    <div className="flex-1 w-full max-w-md">
-                        <TextureCardStyled className="w-full bg-neutral-900/80 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/50 ring-1 ring-white/5">
-                            <TextureCardHeader className="flex flex-col gap-1 items-center justify-center p-6 border-b border-white/5 bg-white/5">
-                                <div className="p-3 bg-neutral-950 rounded-full mb-3 border border-white/10 shadow-inner">
-                                    <Mail className="h-6 w-6 text-brand-gold" />
-                                </div>
-                                <TextureCardTitle className="text-xl text-white font-semibold tracking-wide">Send us a message</TextureCardTitle>
-                                <p className="text-center text-sm text-neutral-400">
-                                    Fill out the form below and we'll get back to you shortly.
+                        {/* Cal.com CTA */}
+                        <div className="relative overflow-hidden rounded-2xl border border-brand-gold/20 bg-brand-gold/6 p-5">
+                            <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-brand-gold/10 blur-2xl" />
+                            <div className="relative">
+                                <CalendarDays className="h-6 w-6 text-brand-gold mb-3" />
+                                <p className="font-display font-semibold text-white text-sm mb-1">Prefer a call?</p>
+                                <p className="text-white/40 text-xs leading-relaxed mb-4">
+                                    Book a free 30-min discovery call — no pressure, just clarity.
                                 </p>
-                            </TextureCardHeader>
+                                <a
+                                    href={CAL_LINK}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="group inline-flex items-center gap-2 rounded-xl bg-brand-gold px-4 py-2.5 text-xs font-bold text-black shadow-[0_0_20px_rgba(212,175,55,0.25)] transition-all hover:bg-brand-gold/90 hover:scale-105"
+                                >
+                                    <CalendarDays className="h-3.5 w-3.5" />
+                                    Schedule Free Call
+                                    <ArrowUpRight className="h-3 w-3" />
+                                </a>
+                            </div>
+                        </div>
+                    </motion.div>
 
-                            <TextureCardContent className="p-6">
-                                <form className="flex flex-col gap-6">
+                    {/* Right — form */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.1 }}
+                        className="md:col-span-3"
+                    >
+                        <div className="rounded-2xl border border-white/8 bg-[#0f0f0f] overflow-hidden">
+                            {/* Form header */}
+                            <div className="border-b border-white/5 px-6 py-4">
+                                <p className="font-display font-semibold text-white text-sm">Send us a message</p>
+                                <p className="text-white/35 text-xs mt-0.5">We reply within 24 hours on business days</p>
+                            </div>
+
+                            {sent ? (
+                                <div className="flex flex-col items-center justify-center gap-3 px-6 py-16 text-center">
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-full border border-green-500/30 bg-green-500/10 text-lg">✓</div>
+                                    <p className="font-display font-semibold text-white">Message sent!</p>
+                                    <p className="text-white/40 text-sm">We&apos;ll get back to you within 24 hours.</p>
+                                </div>
+                            ) : (
+                                <form onSubmit={handleSubmit} className="p-6 space-y-4">
                                     <div className="grid grid-cols-2 gap-4">
-                                        <div className="space-y-2">
-                                            <Label htmlFor="first_name" className="text-xs uppercase tracking-wider text-neutral-400 font-medium ml-1">First Name</Label>
-                                            <Input
-                                                id="first_name"
-                                                placeholder="John"
-                                                className="bg-neutral-950/50 border-white/10 focus:border-brand-gold/50 focus:ring-1 focus:ring-brand-gold/20 text-white placeholder:text-neutral-700 h-11"
+                                        <div className="space-y-1.5">
+                                            <label className="text-[10px] uppercase tracking-wider text-white/35">Your Name</label>
+                                            <input
+                                                required
+                                                value={form.name}
+                                                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                                                placeholder="Rahul Sharma"
+                                                className={cn(
+                                                    "w-full rounded-xl border border-white/8 bg-white/3 px-3.5 py-2.5 text-sm text-white placeholder:text-white/20",
+                                                    "focus:border-brand-gold/40 focus:bg-brand-gold/4 focus:outline-none transition-colors"
+                                                )}
                                             />
                                         </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="last_name" className="text-xs uppercase tracking-wider text-neutral-400 font-medium ml-1">Last Name</Label>
-                                            <Input
-                                                id="last_name"
-                                                placeholder="Doe"
-                                                className="bg-neutral-950/50 border-white/10 focus:border-brand-gold/50 focus:ring-1 focus:ring-brand-gold/20 text-white placeholder:text-neutral-700 h-11"
+                                        <div className="space-y-1.5">
+                                            <label className="text-[10px] uppercase tracking-wider text-white/35">Email Address</label>
+                                            <input
+                                                required
+                                                type="email"
+                                                value={form.email}
+                                                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                                                placeholder="rahul@company.in"
+                                                className={cn(
+                                                    "w-full rounded-xl border border-white/8 bg-white/3 px-3.5 py-2.5 text-sm text-white placeholder:text-white/20",
+                                                    "focus:border-brand-gold/40 focus:bg-brand-gold/4 focus:outline-none transition-colors"
+                                                )}
                                             />
                                         </div>
                                     </div>
 
-                                    <div className="space-y-2">
-                                        <Label htmlFor="email" className="text-xs uppercase tracking-wider text-neutral-400 font-medium ml-1">Email Address</Label>
-                                        <Input
-                                            id="email"
-                                            type="email"
-                                            placeholder="john@example.com"
-                                            className="bg-neutral-950/50 border-white/10 focus:border-brand-gold/50 focus:ring-1 focus:ring-brand-gold/20 text-white placeholder:text-neutral-700 h-11"
+                                    <div className="space-y-1.5">
+                                        <label className="text-[10px] uppercase tracking-wider text-white/35">What are you building?</label>
+                                        <textarea
+                                            required
+                                            value={form.message}
+                                            onChange={(e) => setForm({ ...form, message: e.target.value })}
+                                            placeholder="Tell us about your project — what you need, timeline, and any tech preferences..."
+                                            rows={5}
+                                            className={cn(
+                                                "w-full rounded-xl border border-white/8 bg-white/3 px-3.5 py-2.5 text-sm text-white placeholder:text-white/20 resize-none",
+                                                "focus:border-brand-gold/40 focus:bg-brand-gold/4 focus:outline-none transition-colors"
+                                            )}
                                         />
                                     </div>
 
-                                    <div className="space-y-2">
-                                        <Label htmlFor="message" className="text-xs uppercase tracking-wider text-neutral-400 font-medium ml-1">Message</Label>
-                                        <Textarea
-                                            id="message"
-                                            placeholder="Tell us about your project..."
-                                            className="min-h-[120px] bg-neutral-950/50 border-white/10 focus:border-brand-gold/50 focus:ring-1 focus:ring-brand-gold/20 text-white placeholder:text-neutral-700 resize-none"
-                                        />
-                                    </div>
-                                </form>
-                            </TextureCardContent>
-
-                            <TextureSeparator />
-
-                            <TextureCardFooter className="bg-neutral-950/50 p-4 border-t border-white/5">
-                                <TextureButton variant="accent" className="w-full h-12 text-base font-bold tracking-wide shadow-lg shadow-brand-gold/10 hover:shadow-brand-gold/20 transition-all">
-                                    <div className="flex gap-2 items-center justify-center">
+                                    <button
+                                        type="submit"
+                                        className="group w-full flex items-center justify-center gap-2 rounded-xl bg-brand-gold py-3 font-display font-bold text-black text-sm shadow-[0_0_30px_rgba(212,175,55,0.2)] transition-all hover:bg-brand-gold/90 hover:scale-[1.01] hover:shadow-[0_0_40px_rgba(212,175,55,0.35)]"
+                                    >
+                                        <Send className="h-3.5 w-3.5" />
                                         Send Message
-                                        <ArrowRight className="h-4 w-4" />
-                                    </div>
-                                </TextureButton>
-                            </TextureCardFooter>
-                        </TextureCardStyled>
-                    </div>
-
+                                        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                                    </button>
+                                </form>
+                            )}
+                        </div>
+                    </motion.div>
                 </div>
             </div>
         </section>
