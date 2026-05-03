@@ -6,6 +6,7 @@ import { Approach } from "@/components/sections/Approach";
 import { Showcase } from "@/components/sections/Showcase";
 import { Work } from "@/components/sections/Work";
 import { Marquee } from "@/components/sections/Marquee";
+import { FAQ } from "@/components/sections/FAQ";
 import { Contact } from "@/components/sections/Contact";
 
 export default function Home() {
@@ -18,6 +19,7 @@ export default function Home() {
       <Showcase />
       <Marquee />
       <Work />
+      <FAQ />
       <Contact />
       <Footer />
     </main>

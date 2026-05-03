@@ -19,7 +19,7 @@ const navLinks = [
     { name: "Services", href: "#services" },
     { name: "Approach", href: "#approach" },
     { name: "Work", href: "#work" },
-    { name: "About", href: "#about" },
+    { name: "FAQs", href: "#faq" },
 ];
 
 export function Navbar() {
