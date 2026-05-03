@@ -8,28 +8,28 @@ const steps = [
     {
         title: "Discover",
         description:
-            "We dive deep into your business model, identifying bottlenecks and opportunities for automation and growth.",
+            "We start by understanding your business — goals, gaps, audience, and growth opportunities. No templates, no assumptions. Just a clear picture of what you need built.",
         number: "01",
         icon: Lightbulb,
     },
     {
         title: "Design",
         description:
-            "Our designers craft a premium, high-converting visual identity that resonates with your target audience.",
+            "We craft a sleek, high-converting UI and a solid technical architecture — before a single line of code is written. You approve every layer before we build it.",
         number: "02",
         icon: Palette,
     },
     {
         title: "Develop",
         description:
-            "We engineer robust solutions using cutting-edge tech (Next.js, AI) ensuring speed, security, and scalability.",
+            "Our team builds with AI-assisted development — faster delivery without cutting corners. Every feature is reviewed, tested, and QA-verified at each milestone.",
         number: "03",
         icon: Code2,
     },
     {
-        title: "Deploy",
+        title: "Deploy & Scale",
         description:
-            "Seamless launch with rigorous testing. We handle the technical complexities so you can focus on business.",
+            "We handle the launch end-to-end — performance testing, deployment, and monitoring. After go-live, we stay available to scale as your business grows.",
         number: "04",
         icon: Rocket,
     },
@@ -46,21 +46,21 @@ export function Approach() {
 
     return (
         <section id="approach" className="py-32 relative bg-brand-dark overflow-hidden">
-            {/* Animated Background Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/5 via-transparent to-blue-900/5 opacity-50" />
+            {/* Background gradient */}
+            <div className="absolute inset-0 bg-linear-to-br from-brand-gold/5 via-transparent to-blue-900/5 opacity-50" />
 
-            {/* Grid Pattern Overlay */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:48px_48px]" />
+            {/* Grid pattern */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-size-[48px_48px]" />
 
-            {/* Radial Spotlight */}
+            {/* Radial spotlight */}
             <motion.div
                 style={{
                     opacity: useTransform(scrollYProgress, [0, 0.5, 1], [0.3, 0.6, 0.3]),
                 }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-gold/10 rounded-full blur-[120px]"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-200 bg-brand-gold/10 rounded-full blur-[120px]"
             />
 
-            {/* Floating Particles */}
+            {/* Floating particles */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
                 {[...Array(15)].map((_, i) => (
                     <motion.div
@@ -105,41 +105,35 @@ export function Approach() {
                         className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-brand-gold/10 border border-brand-gold/20"
                     >
                         <Sparkles className="h-4 w-4 text-brand-gold" />
-                        <span className="text-sm font-medium text-brand-gold">Our Process</span>
+                        <span className="text-xs font-semibold uppercase tracking-widest text-brand-gold">Our Process</span>
                     </motion.div>
 
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                    <h2 className="font-display text-4xl md:text-5xl font-bold tracking-[-0.02em] mb-4">
                         Our{" "}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold via-yellow-300 to-brand-gold bg-[length:200%_auto] animate-gradient">
-                            Streamlined
-                        </span>{" "}
+                        <span className="text-gold-shimmer">Streamlined</span>{" "}
                         Approach
                     </h2>
 
-                    {/* Animated Underline */}
                     <motion.div
                         initial={{ scaleX: 0 }}
                         whileInView={{ scaleX: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: 0.3 }}
-                        className="w-24 h-1 bg-gradient-to-r from-transparent via-brand-gold to-transparent mx-auto mb-6"
+                        className="w-24 h-1 bg-linear-to-r from-transparent via-brand-gold to-transparent mx-auto mb-6"
                     />
 
-                    <p className="text-white/70 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
-                        A proven methodology to transform your vision into a digital powerhouse,
-                        delivered with precision and excellence.
+                    <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                        A proven four-step methodology — from understanding your business to shipping software that scales.
                     </p>
                 </motion.div>
 
                 <div ref={containerRef} className="relative max-w-5xl mx-auto">
-                    {/* Central Timeline Line with Glow */}
-                    <div className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-[2px] bg-white/10 h-full -translate-x-1/2">
+                    {/* Timeline line */}
+                    <div className="absolute left-5 md:left-1/2 top-0 bottom-0 w-0.5 bg-white/10 h-full -translate-x-1/2">
                         <motion.div
                             style={{ height: lineHeight }}
-                            className="absolute top-0 left-0 w-full bg-gradient-to-b from-brand-gold to-yellow-500 shadow-[0_0_20px_rgba(212,175,55,0.6)]"
+                            className="absolute top-0 left-0 w-full bg-linear-to-b from-brand-gold to-yellow-500 shadow-[0_0_20px_rgba(212,175,55,0.6)]"
                         />
-
-                        {/* Traveling Particle */}
                         <motion.div
                             style={{ top: lineHeight }}
                             className="absolute left-1/2 -translate-x-1/2 w-2 h-2 bg-brand-gold rounded-full shadow-[0_0_15px_rgba(212,175,55,0.8)]"
@@ -153,21 +147,6 @@ export function Approach() {
                     </div>
                 </div>
             </div>
-
-            {/* Add CSS for gradient animation */}
-            <style jsx>{`
-                @keyframes gradient {
-                    0%, 100% {
-                        background-position: 0% 50%;
-                    }
-                    50% {
-                        background-position: 100% 50%;
-                    }
-                }
-                .animate-gradient {
-                    animation: gradient 3s ease infinite;
-                }
-            `}</style>
         </section>
     );
 }
@@ -176,7 +155,7 @@ function TimelineItem({
     step,
     index,
 }: {
-    step: { title: string; description: string; number: string; icon: any };
+    step: { title: string; description: string; number: string; icon: React.ElementType };
     index: number;
 }) {
     const isEven = index % 2 === 0;
@@ -187,9 +166,8 @@ function TimelineItem({
     useEffect(() => {
         if (hasAnimated) {
             const target = parseInt(step.number);
-            const duration = 1000;
-            const steps = 30;
-            const increment = target / steps;
+            const stepCount = 30;
+            const increment = target / stepCount;
             let current = 0;
 
             const timer = setInterval(() => {
@@ -200,7 +178,7 @@ function TimelineItem({
                 } else {
                     setCount(Math.floor(current));
                 }
-            }, duration / steps);
+            }, 1000 / stepCount);
 
             return () => clearInterval(timer);
         }
@@ -213,43 +191,28 @@ function TimelineItem({
             viewport={{ once: true, margin: "-100px" }}
             onViewportEnter={() => setHasAnimated(true)}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className={`relative flex items-center ${isEven ? "md:justify-start" : "md:justify-end"
-                }`}
+            className={`relative flex items-center ${isEven ? "md:justify-start" : "md:justify-end"}`}
         >
-            {/* Timeline Node with Pulsing Rings */}
-            <div className="absolute left-[20px] md:left-1/2 -translate-x-1/2 z-10">
+            {/* Timeline node */}
+            <div className="absolute left-5 md:left-1/2 -translate-x-1/2 z-10">
                 <div className="relative">
-                    {/* Pulsing Rings */}
                     <motion.div
-                        animate={{
-                            scale: [1, 1.5, 1],
-                            opacity: [0.5, 0, 0.5],
-                        }}
-                        transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                        }}
+                        animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                         className="absolute inset-0 w-6 h-6 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 rounded-full border-2 border-brand-gold"
                     />
-
-                    {/* Core Node */}
                     <div className="w-5 h-5 rounded-full bg-brand-dark border-2 border-brand-gold shadow-[0_0_15px_rgba(212,175,55,0.7)]" />
                 </div>
             </div>
 
-            {/* Content Card */}
+            {/* Content card */}
             <motion.div
-                whileHover={{ scale: 1.02, y: -5 }}
+                whileHover={{ scale: 1.02, y: -4 }}
                 transition={{ type: "spring", stiffness: 300 }}
-                className={`w-full md:w-[calc(50%-40px)] ml-[60px] md:ml-0 ${isEven ? "md:mr-[40px]" : "md:ml-[40px]"
-                    }`}
+                className={`w-full md:w-[calc(50%-40px)] ml-15 md:ml-0 ${isEven ? "md:mr-10" : "md:ml-10"}`}
             >
-                <div className="group relative rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md overflow-hidden transition-all duration-500">
-
-                    {/* Card Content */}
+                <div className="group relative rounded-2xl border border-white/10 bg-white/3 backdrop-blur-md overflow-hidden transition-all duration-500 hover:border-brand-gold/20">
                     <div className="relative p-8">
-                        {/* Header with Icon and Number */}
                         <div className="flex items-start justify-between mb-6">
                             <motion.div
                                 whileHover={{ rotate: 360, scale: 1.1 }}
@@ -259,28 +222,25 @@ function TimelineItem({
                                 <Icon className="h-6 w-6 text-brand-gold" />
                             </motion.div>
 
-                            <div className="text-8xl font-bold text-white/5 leading-none select-none">
-                                {String(count).padStart(2, '0')}
+                            <div className="text-8xl font-bold text-white/5 leading-none select-none font-display">
+                                {String(count).padStart(2, "0")}
                             </div>
                         </div>
 
-                        {/* Title */}
-                        <h3 className="text-3xl font-bold text-white mb-4">
+                        <h3 className="font-display text-2xl font-bold tracking-tight text-white mb-3 group-hover:text-brand-gold transition-colors duration-300">
                             {step.title}
                         </h3>
 
-                        {/* Description */}
-                        <p className="text-white/70 text-lg leading-relaxed">
+                        <p className="text-white/60 text-base leading-relaxed">
                             {step.description}
                         </p>
 
-                        {/* Decorative Line */}
                         <motion.div
                             initial={{ scaleX: 0 }}
                             whileInView={{ scaleX: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.3 }}
-                            className="mt-6 h-[2px] bg-gradient-to-r from-brand-gold/0 via-brand-gold/50 to-brand-gold/0"
+                            className="mt-6 h-0.5 bg-linear-to-r from-brand-gold/0 via-brand-gold/40 to-brand-gold/0"
                         />
                     </div>
                 </div>

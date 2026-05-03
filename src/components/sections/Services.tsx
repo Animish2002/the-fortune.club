@@ -3,524 +3,379 @@
 import {
     ArrowUpRight,
     CheckCircle2,
-    Clock,
-    Mic,
-    Plus,
-    Sparkles,
-    Zap,
-    Code2,
-
-    CreditCard,
     Bot,
-    Search,
-    Layout,
     Globe,
-    Database,
-    Server
+    Zap,
+    Users,
+    HeadphonesIcon,
+    BarChart3,
+    Workflow,
+    Smartphone,
+    Code2,
+    Share2,
+    Briefcase,
 } from "lucide-react";
-import {
-    motion,
-    useMotionValue,
-    useTransform,
-    type Variants,
-} from "framer-motion";
+import { motion, useMotionValue, useTransform, type Variants } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Globe3D } from "@/components/ui/Globe3D";
 import { FaWhatsapp } from "react-icons/fa";
 
-// --- Interfaces ---
+// ─── Types ──────────────────────────────────────────────────────────────────
 
 interface BentoItem {
     id: string;
     title: string;
     description: string;
-    icons?: boolean;
+    icon: React.ElementType;
     href?: string;
-    feature?:
-    | "chart"
-    | "counter"
-    | "code"
-    | "timeline"
-    | "spotlight"
-    | "icons"
-    | "typing"
-    | "metrics"
-    | "voice"
-    | "globe";
-    spotlightItems?: string[];
-    timeline?: Array<{ year: string; event: string }>;
-    code?: string;
-    codeLang?: string;
+    feature: "globe" | "typing" | "metrics" | "checklist" | "icons" | "chart" | "tags";
+    bullets?: string[];
+    metrics?: Array<{ label: string; value: number; suffix?: string }>;
     typingText?: string;
-    metrics?: Array<{
-        label: string;
-        value: number;
-        suffix?: string;
-        color?: string;
-    }>;
-    statistic?: {
-        value: string;
-        label: string;
-        start?: number;
-        end?: number;
-        suffix?: string;
-    };
-    size?: "sm" | "md" | "lg";
+    tags?: string[];
     className?: string;
 }
 
-// --- Data ---
+// ─── Data ────────────────────────────────────────────────────────────────────
 
 const bentoItems: BentoItem[] = [
     {
         id: "software",
-        title: "Software Solutions",
-        description:
-            "Enterprise-grade architectures scaling seamlessly with cloud-native technologies.",
+        title: "Custom Software Development",
+        description: "Enterprise-grade web, SaaS, and backend systems built with AI-assisted speed and QA-first delivery.",
+        icon: Code2,
         href: "#",
         feature: "globe",
-        spotlightItems: [
-            "Microservices Architecture",
-            "Cloud-Native Systems",
+        bullets: [
+            "AI-Accelerated Development",
+            "Cloud-Native Architecture",
             "API-First Design",
-            "High-Performance DBs",
-            "Real-time Processing",
+            "Rigorous QA & Testing",
+            "Scalable from Day One",
         ],
-        className: "col-span-1 md:col-span-2 md:row-span-2",
-    },
-    {
-        id: "seo",
-        title: "SEO Ranking",
-        description:
-            "Dominate search results.",
-        href: "#",
-        feature: "metrics",
-        metrics: [
-            { label: "Organic Traffic", value: 320, suffix: "%", color: "gold" },
-            { label: "Page Speed", value: 99, suffix: "/100", color: "gold" }
-        ],
-        className: "col-span-1 md:col-span-1 md:row-span-1",
+        className: "md:col-span-2 md:row-span-2",
     },
     {
         id: "whatsapp",
-        title: "WhatsApp Bot",
-        description:
-            "24/7 Customer engagement.",
+        title: "WhatsApp Automation",
+        description: "AI-powered chatbot with lead management and bulk marketing on Meta's platform.",
+        icon: FaWhatsapp,
         href: "#",
-        feature: "icons",
-        size: "sm",
-        className: "col-span-1 md:col-span-1 md:row-span-1",
+        feature: "checklist",
+        bullets: ["AI Chatbot", "Lead Management", "Bulk Marketing", "Live Chat"],
+        className: "md:col-span-1 md:row-span-1",
     },
     {
-        id: "payment",
-        title: "Revenue Growth",
-        description:
-            "Seamless payment integrations.",
+        id: "social",
+        title: "Social Media Management",
+        description: "Complete social presence with AI content generation and competitor analysis.",
+        icon: Share2,
         href: "#",
-        feature: "chart",
-        statistic: {
-            label: "Conversion",
-            value: "100",
-            start: 0,
-            end: 98,
-            suffix: "%"
-        },
-        className: "col-span-1 md:col-span-1 md:row-span-1",
+        feature: "metrics",
+        metrics: [
+            { label: "Organic Growth", value: 320, suffix: "%" },
+            { label: "Page Speed", value: 99, suffix: "/100" },
+        ],
+        className: "md:col-span-1 md:row-span-1",
     },
     {
-        id: "ai-agents",
-        title: "AI Agents & Automation",
-        description:
-            "Intelligent workflows that work while you sleep.",
+        id: "workflow",
+        title: "Workflow Automation",
+        description: "No-code platform connecting your apps and streamlining business processes end to end.",
+        icon: Workflow,
         href: "#",
         feature: "typing",
-        typingText:
-            "const agent = new FortuneAI({\n  model: 'gpt-4o',\n  capabilities: ['coding', 'analysis'],\n  memory: true\n});\n\nawait agent.automate('workflow_v2');",
-        className: "col-span-1 md:col-span-1 md:row-span-1",
+        typingText: `trigger("lead_captured")\n  .filter(score > 80)\n  .notify("sales_team")\n  .createDeal(CRM)\n  .schedule(followup, "2d")`,
+        className: "md:col-span-1 md:row-span-1",
+    },
+    {
+        id: "mobile",
+        title: "Mobile App Development",
+        description: "Cross-platform iOS & Android apps — native performance, polished UI.",
+        icon: Smartphone,
+        href: "#",
+        feature: "tags",
+        tags: ["React Native", "Flutter", "iOS", "Android", "App Store"],
+        className: "md:col-span-1 md:row-span-1",
+    },
+    {
+        id: "ats",
+        title: "Application Tracking System",
+        description: "End-to-end recruitment management — from job posting to hiring.",
+        icon: Briefcase,
+        href: "#",
+        feature: "checklist",
+        bullets: ["Job Posting", "Candidate Tracking", "Interview Scheduling", "Email Integration"],
+        className: "md:col-span-1 md:row-span-1",
+    },
+    {
+        id: "support",
+        title: "Ticket & Live Chat",
+        description: "Omnichannel customer support with SLA tracking and agent performance insights.",
+        icon: HeadphonesIcon,
+        href: "#",
+        feature: "checklist",
+        bullets: ["Live Chat", "Ticket Management", "Agent Performance", "SLA Reports"],
+        className: "md:col-span-1 md:row-span-1",
+    },
+    {
+        id: "hrms",
+        title: "HRMS System",
+        description: "Complete human resource management — from attendance and leave to payroll.",
+        icon: Users,
+        href: "#",
+        feature: "checklist",
+        bullets: ["Employee Management", "Attendance & Leave", "Payroll Processing", "Expense Management"],
+        className: "md:col-span-1 md:row-span-1",
     },
 ];
 
-// --- Animations ---
+// ─── Animations ──────────────────────────────────────────────────────────────
 
 const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 20 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.5,
-            ease: "easeOut",
-        },
-    },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
 };
 
-const staggerContainer: Variants = {
+const stagger: Variants = {
     hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.15,
-            delayChildren: 0.3,
-        },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
 };
 
-// --- Components ---
+// ─── Feature sub-components ──────────────────────────────────────────────────
 
-const SpotlightFeature = ({ items }: { items: string[] }) => (
-    <ul className="mt-4 space-y-3">
-        {items.map((item, index) => (
-            <motion.li
-                animate={{ opacity: 1, x: 0 }}
-                className="flex items-center gap-3"
-                initial={{ opacity: 0, x: -10 }}
-                key={`spotlight-${index}`}
-                transition={{ delay: 0.1 * index }}
-            >
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-gold/10">
-                    <CheckCircle2 className="h-4 w-4 flex-shrink-0 text-brand-gold" />
-                </div>
-                <span className="text-white/80 text-sm font-medium">
-                    {item}
-                </span>
-            </motion.li>
-        ))}
-    </ul>
-);
-
-const ChartAnimation = ({ value }: { value: number }) => (
-    <div className="mt-4 h-3 w-full overflow-hidden rounded-full bg-white/10">
-        <motion.div
-            animate={{ width: `${value}%` }}
-            className="h-full rounded-full bg-brand-gold shadow-[0_0_15px_rgba(212,175,55,0.5)]"
-            initial={{ width: 0 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-        />
-    </div>
-);
-
-const CounterAnimation = ({
-    start,
-    end,
-    suffix = "",
-}: {
-    start: number;
-    end: number;
-    suffix?: string;
-}) => {
-    const [count, setCount] = useState(start);
-
-    useEffect(() => {
-        // Basic counter logic
-        const duration = 2000;
-        const steps = 60;
-        const stepTime = duration / steps;
-        let current = start;
-        const increment = (end - start) / steps;
-
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= end) {
-                setCount(end);
-                clearInterval(timer);
-            } else {
-                setCount(current);
-            }
-        }, stepTime);
-
-        return () => clearInterval(timer);
-    }, [start, end]);
-
+function ChecklistFeature({ bullets }: { bullets: string[] }) {
     return (
-        <div className="flex items-baseline gap-1">
-            <span className="font-bold text-4xl text-brand-gold">
-                {count.toFixed(0)}
-            </span>
-            <span className="font-medium text-white/80 text-xl">
-                {suffix}
-            </span>
-        </div>
-    );
-};
-
-const IconsFeature = () => (
-    <div className="mt-4 grid grid-cols-2 gap-3">
-        <div className="flex flex-col items-center gap-2 rounded-lg bg-white/5 p-3 border border-white/5">
-            <FaWhatsapp className="h-6 w-6 text-green-500" />
-            <span className="text-xs text-white/60">WhatsApp</span>
-        </div>
-        <div className="flex flex-col items-center gap-2 rounded-lg bg-white/5 p-3 border border-white/5">
-            <Globe className="h-6 w-6 text-blue-500" />
-            <span className="text-xs text-white/60">Web</span>
-        </div>
-    </div>
-);
-
-const TypingCodeFeature = ({ text }: { text: string }) => {
-    const [displayedText, setDisplayedText] = useState("");
-    const [currentIndex, setCurrentIndex] = useState(0);
-
-    useEffect(() => {
-        if (currentIndex < text.length) {
-            const timeout = setTimeout(
-                () => {
-                    setDisplayedText((prev) => prev + text[currentIndex]);
-                    setCurrentIndex((prev) => prev + 1);
-                },
-                30 + Math.random() * 30
-            );
-            return () => clearTimeout(timeout);
-        }
-    }, [currentIndex, text]);
-
-    return (
-        <div className="relative mt-4 rounded-lg bg-black/50 border border-white/10 p-4 font-mono text-xs text-brand-gold/90 shadow-inner">
-            <div className="flex gap-1.5 mb-3">
-                <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
-                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
-                <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
-            </div>
-            <pre className="whitespace-pre-wrap overflow-x-hidden">
-                {displayedText}
-                <span className="animate-pulse text-brand-gold">|</span>
-            </pre>
-        </div>
-    );
-};
-
-const MetricsFeature = ({
-    metrics,
-}: {
-    metrics: Array<{
-        label: string;
-        value: number;
-        suffix?: string;
-        color?: string;
-    }>;
-}) => {
-    return (
-        <div className="mt-4 space-y-4">
-            {metrics.map((metric, index) => (
-                <div key={index} className="space-y-1">
-                    <div className="flex justify-between text-sm">
-                        <span className="text-white/70">{metric.label}</span>
-                        <span className="text-brand-gold font-bold">{metric.value}{metric.suffix}</span>
+        <ul className="mt-4 space-y-2.5">
+            {bullets.map((b, i) => (
+                <motion.li
+                    key={i}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.08 * i }}
+                    className="flex items-center gap-2.5"
+                >
+                    <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-gold/10">
+                        <CheckCircle2 className="h-3.5 w-3.5 text-brand-gold" />
                     </div>
-                    <div className="h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
+                    <span className="text-sm text-white/70">{b}</span>
+                </motion.li>
+            ))}
+        </ul>
+    );
+}
+
+function MetricsFeature({ metrics }: { metrics: BentoItem["metrics"] }) {
+    if (!metrics) return null;
+    return (
+        <div className="mt-4 space-y-3">
+            {metrics.map((m, i) => (
+                <div key={i} className="space-y-1.5">
+                    <div className="flex justify-between text-xs">
+                        <span className="text-white/60">{m.label}</span>
+                        <span className="font-semibold text-brand-gold">{m.value}{m.suffix}</span>
+                    </div>
+                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
                         <motion.div
                             initial={{ width: 0 }}
-                            whileInView={{ width: `${Math.min(100, metric.value)}%` }}
-                            transition={{ duration: 1, delay: 0.2 + (index * 0.1) }}
-                            className="h-full bg-brand-gold rounded-full"
+                            whileInView={{ width: `${Math.min(100, m.value)}%` }}
+                            transition={{ duration: 1.2, delay: 0.2 + i * 0.1, ease: "easeOut" }}
+                            className="h-full rounded-full bg-brand-gold"
                         />
                     </div>
                 </div>
             ))}
         </div>
     );
-};
+}
 
-function AIInput_Voice() {
-    const [isAnimating, setIsAnimating] = useState(false);
-
+function TypingFeature({ text }: { text: string }) {
+    const [displayed, setDisplayed] = useState("");
+    const [idx, setIdx] = useState(0);
+    useEffect(() => {
+        if (idx < text.length) {
+            const t = setTimeout(() => {
+                setDisplayed((p) => p + text[idx]);
+                setIdx((p) => p + 1);
+            }, 28 + Math.random() * 24);
+            return () => clearTimeout(t);
+        }
+    }, [idx, text]);
     return (
-        <div className="w-full py-4 flex flex-col items-center">
-            <div
-                className="relative group cursor-pointer"
-                onMouseEnter={() => setIsAnimating(true)}
-                onMouseLeave={() => setIsAnimating(false)}
-            >
-                <div className={cn(
-                    "h-16 w-16 rounded-full flex items-center justify-center transition-all duration-300",
-                    isAnimating ? "bg-brand-gold text-black scale-110 shadow-[0_0_30px_rgba(212,175,55,0.4)]" : "bg-white/10 text-white"
-                )}>
-                    <Mic className="h-6 w-6" />
-                </div>
-
-                {/* Ripple Effect */}
-                {isAnimating && (
-                    <>
-                        <div className="absolute inset-0 rounded-full border border-brand-gold/50 animate-ping" />
-                        <div className="absolute -inset-2 rounded-full border border-brand-gold/30 animate-pulse" />
-                    </>
-                )}
+        <div className="mt-4 rounded-xl border border-white/8 bg-black/60 p-4 font-mono text-[11px] leading-relaxed text-brand-gold/80">
+            <div className="mb-2.5 flex gap-1.5">
+                <div className="h-2.5 w-2.5 rounded-full bg-red-500/50" />
+                <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/50" />
+                <div className="h-2.5 w-2.5 rounded-full bg-green-500/50" />
             </div>
-            <p className="mt-4 text-xs font-mono text-white/50">
-                {isAnimating ? "Listening..." : "Hover to speak"}
-            </p>
+            <pre className="whitespace-pre-wrap">{displayed}<span className="animate-pulse">▌</span></pre>
         </div>
     );
 }
 
-const BentoCard = ({ item, className }: { item: BentoItem; className?: string }) => {
-    const [isHovered, setIsHovered] = useState(false);
+function TagsFeature({ tags }: { tags: string[] }) {
+    return (
+        <div className="mt-4 flex flex-wrap gap-2">
+            {tags.map((tag, i) => (
+                <span
+                    key={i}
+                    className="rounded-full border border-brand-gold/20 bg-brand-gold/8 px-3 py-1 text-xs font-medium text-brand-gold/80"
+                >
+                    {tag}
+                </span>
+            ))}
+        </div>
+    );
+}
+
+// ─── Bento card ──────────────────────────────────────────────────────────────
+
+function BentoCard({ item, className }: { item: BentoItem; className?: string }) {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
-    const rotateX = useTransform(y, [-100, 100], [2, -2]);
-    const rotateY = useTransform(x, [-100, 100], [-2, 2]);
+    const rotateX = useTransform(y, [-80, 80], [2, -2]);
+    const rotateY = useTransform(x, [-80, 80], [-2, 2]);
+    const Icon = item.icon;
 
-    function handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
-        const rect = event.currentTarget.getBoundingClientRect();
-        const width = rect.width;
-        const height = rect.height;
-        const mouseX = event.clientX - rect.left;
-        const mouseY = event.clientY - rect.top;
-        const xPct = mouseX / width - 0.5;
-        const yPct = mouseY / height - 0.5;
-        x.set(xPct * 100);
-        y.set(yPct * 100);
+    function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+        const r = e.currentTarget.getBoundingClientRect();
+        x.set(((e.clientX - r.left) / r.width - 0.5) * 80);
+        y.set(((e.clientY - r.top) / r.height - 0.5) * 80);
     }
-
-    function handleMouseLeave() {
-        x.set(0);
-        y.set(0);
-        setIsHovered(false);
-    }
+    function onMouseLeave() { x.set(0); y.set(0); }
 
     return (
         <motion.div
             className={cn("h-full", className)}
-            onHoverEnd={handleMouseLeave}
-            onHoverStart={() => setIsHovered(true)}
-            onMouseMove={handleMouseMove}
-            style={{
-                rotateX,
-                rotateY,
-                transformStyle: "preserve-3d",
-            }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            onMouseMove={onMouseMove}
+            onMouseLeave={onMouseLeave}
+            style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+            transition={{ type: "spring", stiffness: 250, damping: 22 }}
             variants={fadeInUp}
         >
             <Link
-                href={item.href || "#"}
-                className="group relative flex h-full flex-col gap-4 rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all duration-500 hover:border-brand-gold/30 hover:bg-white/[0.07] hover:shadow-[0_0_30px_rgba(0,0,0,0.3)] overflow-hidden"
+                href={item.href ?? "#"}
+                className="group relative flex h-full flex-col rounded-2xl border border-white/8 bg-white/3 p-6 backdrop-blur-sm transition-all duration-500 hover:border-brand-gold/25 hover:bg-white/6 hover:shadow-[0_0_40px_rgba(0,0,0,0.4)] overflow-hidden"
             >
-                {/* Glow Effect */}
-                <div className="absolute -inset-4 bg-brand-gold/5 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                {/* hover glow */}
+                <div className="absolute -inset-6 bg-brand-gold/4 blur-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                 <div className="relative z-10 flex h-full flex-col">
-                    <div className="flex items-start justify-between mb-4">
-                        <div className="p-2 rounded-lg bg-white/5 border border-white/5 text-brand-gold group-hover:scale-110 transition-transform duration-300">
-                            {item.feature === 'globe' && <Globe className="h-5 w-5" />}
-                            {item.feature === 'spotlight' && <Layout className="h-5 w-5" />}
-                            {item.feature === 'typing' && <Bot className="h-5 w-5" />}
-                            {item.feature === 'icons' && <FaWhatsapp className="h-5 w-5" />}
-                            {item.feature === 'chart' && <CreditCard className="h-5 w-5" />}
-                            {item.feature === 'metrics' && <Search className="h-5 w-5" />}
-                            {item.feature === 'voice' && <Mic className="h-5 w-5" />}
+                    {/* Header */}
+                    <div className="mb-4 flex items-start justify-between">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/8 bg-white/5 text-brand-gold transition-transform duration-300 group-hover:scale-110">
+                            <Icon className="h-5 w-5" />
                         </div>
-                        <ArrowUpRight className="h-5 w-5 text-white/30 group-hover:text-brand-gold transition-colors" />
+                        <ArrowUpRight className="h-4 w-4 text-white/20 transition-colors duration-300 group-hover:text-brand-gold" />
                     </div>
 
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-brand-gold transition-colors">
+                    {/* Text */}
+                    <h3 className="font-display mb-2 text-lg font-semibold leading-snug text-white transition-colors duration-300 group-hover:text-brand-gold">
                         {item.title}
                     </h3>
-                    <p className="text-sm text-white/60 mb-4">
-                        {item.description}
-                    </p>
+                    <p className="text-sm leading-relaxed text-white/50">{item.description}</p>
 
-                    <div className="mt-auto">
+                    {/* Feature */}
+                    <div className="mt-auto pt-2">
                         {item.feature === "globe" && (
-                            <div className="flex flex-col md:flex-row gap-6 items-center">
-                                <div className="w-full md:w-1/2 h-80 md:h-96">
-                                    <Globe3D />
-                                </div>
-                                {item.spotlightItems && (
-                                    <div className="w-full md:w-1/2">
-                                        <SpotlightFeature items={item.spotlightItems} />
-                                    </div>
-                                )}
+                            <div className="flex flex-col gap-6 md:flex-row md:items-center">
+                                <div className="h-64 w-full md:h-72 md:w-1/2"><Globe3D /></div>
+                                {item.bullets && <div className="md:w-1/2"><ChecklistFeature bullets={item.bullets} /></div>}
                             </div>
                         )}
-                        {item.feature === "spotlight" && item.spotlightItems && (
-                            <SpotlightFeature items={item.spotlightItems} />
-                        )}
-                        {item.feature === "typing" && item.typingText && (
-                            <TypingCodeFeature text={item.typingText} />
-                        )}
-                        {item.feature === "chart" && item.statistic && (
-                            <div className="pt-2">
-                                <div className="flex justify-between text-sm mb-1">
-                                    <span className="text-white/70">{item.statistic.label}</span>
-                                    <span className="text-brand-gold font-bold">{item.statistic.value}{item.statistic.suffix}</span>
-                                </div>
-                                <ChartAnimation value={item.statistic.end || 0} />
-                            </div>
-                        )}
-                        {item.feature === "metrics" && item.metrics && (
-                            <MetricsFeature metrics={item.metrics} />
-                        )}
-                        {item.feature === "icons" && <IconsFeature />}
-                        {item.feature === "voice" && <AIInput_Voice />}
+                        {item.feature === "checklist" && item.bullets && <ChecklistFeature bullets={item.bullets} />}
+                        {item.feature === "metrics" && item.metrics && <MetricsFeature metrics={item.metrics} />}
+                        {item.feature === "typing" && item.typingText && <TypingFeature text={item.typingText} />}
+                        {item.feature === "tags" && item.tags && <TagsFeature tags={item.tags} />}
                     </div>
                 </div>
             </Link>
         </motion.div>
     );
-};
+}
+
+// ─── Section ─────────────────────────────────────────────────────────────────
 
 export function Services() {
     return (
-        <section id="services" className="py-24 px-4 overflow-hidden">
+        <section id="services" className="py-28 px-4 overflow-hidden">
             <div className="max-w-7xl mx-auto">
+
+                {/* Section header */}
                 <div className="mb-16 text-center">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        className="mb-5 inline-flex items-center gap-2 rounded-full border border-brand-gold/20 bg-brand-gold/8 px-4 py-1.5"
+                    >
+                        <Zap className="h-3.5 w-3.5 text-brand-gold" />
+                        <span className="text-xs font-semibold uppercase tracking-widest text-brand-gold">Complete Ecosystem</span>
+                    </motion.div>
+
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-4xl md:text-5xl font-bold mb-4"
+                        className="font-display text-4xl font-bold tracking-[-0.02em] md:text-5xl mb-4"
                     >
-                        Digital <span className="text-brand-gold">Capabilities</span>
+                        Your Complete{" "}
+                        <span className="text-gold-shimmer">Solution Stack</span>
                     </motion.h2>
+
                     <motion.p
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 16 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-white/60 max-w-2xl mx-auto"
+                        className="text-white/50 max-w-2xl mx-auto text-base md:text-lg leading-relaxed"
                     >
-                        We build architectures that scale, agents that think, and interfaces that convert.
+                        From custom-built software to a ready-made SaaS suite — all managed from one Central Reseller Panel, all white-labeled for your brand.
                     </motion.p>
                 </div>
 
+                {/* Bento grid */}
                 <motion.div
                     initial="hidden"
                     whileInView="visible"
-                    variants={staggerContainer}
+                    variants={stagger}
                     viewport={{ once: true }}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[minmax(250px,auto)]"
+                    className="grid grid-cols-1 gap-4 md:grid-cols-3 auto-rows-[minmax(220px,auto)]"
                 >
-                    {/* 1. Software Solutions (Large) */}
+                    {/* Custom Software — 2×2 */}
                     <BentoCard item={bentoItems[0]} className="md:col-span-2 md:row-span-2" />
+                    {/* WhatsApp */}
+                    <BentoCard item={bentoItems[1]} className="md:col-span-1" />
+                    {/* Social Media */}
+                    <BentoCard item={bentoItems[2]} className="md:col-span-1" />
+                    {/* Workflow */}
+                    <BentoCard item={bentoItems[3]} className="md:col-span-1" />
+                    {/* Mobile */}
+                    <BentoCard item={bentoItems[4]} className="md:col-span-1" />
+                    {/* ATS */}
+                    <BentoCard item={bentoItems[5]} className="md:col-span-1" />
+                    {/* Support */}
+                    <BentoCard item={bentoItems[6]} className="md:col-span-1" />
+                    {/* HRMS */}
+                    <BentoCard item={bentoItems[7]} className="md:col-span-1" />
+                </motion.div>
 
-                    {/* 2. SEO */}
-                    <BentoCard item={bentoItems[1]} className="md:col-span-1 md:row-span-1" />
-
-                    {/* 3. WhatsApp */}
-                    <BentoCard item={bentoItems[2]} className="md:col-span-1 md:row-span-1" />
-
-                    {/* 4. Payment */}
-                    <BentoCard item={bentoItems[3]} className="md:col-span-1 md:row-span-1" />
-
-                    {/* 5. AI Agents */}
-                    <BentoCard item={bentoItems[4]} className="md:col-span-1 md:row-span-1" />
-
-
-
-                    {/* 6. Voice AI (New Feature) */}
-                    <BentoCard
-                        item={{
-                            id: "voice",
-                            title: "Voice AI",
-                            description: "Natural language voice interaction.",
-                            href: "#",
-                            feature: "voice"
-                        }}
-                        className="md:col-span-1 md:row-span-1 bg-gradient-to-br from-brand-gold/10 to-transparent"
-                    />
-
+                {/* Bottom callout */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 }}
+                    className="mt-8 flex items-center justify-center gap-3 rounded-2xl border border-brand-gold/15 bg-brand-gold/5 px-8 py-5"
+                >
+                    <BarChart3 className="h-5 w-5 shrink-0 text-brand-gold" />
+                    <p className="text-sm font-medium text-white/70">
+                        All 6 SaaS products managed from a{" "}
+                        <span className="text-brand-gold font-semibold">single Central Reseller Panel</span>
+                        {" "}— your branding, your clients, your revenue.
+                    </p>
                 </motion.div>
             </div>
         </section>

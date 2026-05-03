@@ -1,74 +1,134 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import CurvedLoop from "@/components/ui/curved-loop";
+import { FaWhatsapp, FaLinkedinIn, FaInstagram, FaXTwitter } from "react-icons/fa6";
+
+const services = [
+    { label: "Custom Software", href: "#services" },
+    { label: "Mobile Apps", href: "#services" },
+    { label: "WhatsApp Automation", href: "#services" },
+    { label: "Workflow Automation", href: "#services" },
+    { label: "Social Media AI", href: "#services" },
+    { label: "HRMS & ATS", href: "#services" },
+];
+
+const company = [
+    { label: "About", href: "#about" },
+    { label: "Our Approach", href: "#approach" },
+    { label: "Work", href: "#work" },
+    { label: "Contact", href: "#contact" },
+];
+
+const socials = [
+    { label: "LinkedIn", href: "#", icon: FaLinkedinIn },
+    { label: "Instagram", href: "#", icon: FaInstagram },
+    { label: "X / Twitter", href: "#", icon: FaXTwitter },
+    { label: "WhatsApp", href: "https://wa.me/", icon: FaWhatsapp },
+];
 
 export function Footer() {
     return (
         <footer className="relative bg-black pt-24 pb-12 overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            {/* Top divider */}
+            <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-white/15 to-transparent" />
+
+            {/* Subtle glow */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-px bg-brand-gold/30 blur-sm" />
 
             <div className="max-w-6xl mx-auto px-4">
-                <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-20">
-                    <div className="max-w-md">
-                        <Link href="/" className="text-2xl font-bold text-white mb-6 block">
-                            TheFortune<span className="text-brand-gold">.Club</span>
+                <div className="flex flex-col md:flex-row justify-between items-start gap-16 mb-20">
+
+                    {/* Brand block */}
+                    <div className="max-w-sm">
+                        <Link href="/" className="inline-block mb-5">
+                            <span className="font-display text-2xl font-bold text-white tracking-tight">
+                                TheFortune<span className="text-brand-gold">.Club</span>
+                            </span>
                         </Link>
-                        <p className="text-white/60 text-lg mb-8">
-                            Helping businesses built their digital fortune through premium software, automation, and design.
+                        <p className="text-white/45 text-sm leading-relaxed mb-8">
+                            AI-powered software development and a complete white-label SaaS ecosystem — built for Indian businesses and global clients who demand quality.
                         </p>
                         <Button
                             asChild
                             size="lg"
-                            className="rounded-full bg-brand-gold text-black hover:bg-brand-gold/90 hover:scale-105 transition-transform duration-300"
+                            className="rounded-full bg-brand-gold text-black font-semibold hover:bg-brand-gold/90 hover:scale-105 transition-all duration-300 shadow-[0_0_30px_rgba(212,175,55,0.25)]"
                         >
-                            <Link href="#contact">Let's Build Your Digital Fortune</Link>
+                            <Link href="#contact">Let&apos;s Build Together</Link>
                         </Button>
                     </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-16">
+                    {/* Links */}
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-10 md:gap-16">
                         <div>
-                            <h4 className="text-white font-semibold mb-4">Services</h4>
-                            <ul className="space-y-2 text-white/60">
-                                <li><Link href="#" className="hover:text-white transition-colors">Software</Link></li>
-                                <li><Link href="#" className="hover:text-white transition-colors">Automation</Link></li>
-                                <li><Link href="#" className="hover:text-white transition-colors">Design</Link></li>
-                                <li><Link href="#" className="hover:text-white transition-colors">SEO</Link></li>
+                            <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Services</h4>
+                            <ul className="space-y-3">
+                                {services.map((s) => (
+                                    <li key={s.label}>
+                                        <Link
+                                            href={s.href}
+                                            className="text-sm text-white/45 hover:text-brand-gold transition-colors duration-200"
+                                        >
+                                            {s.label}
+                                        </Link>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
+
                         <div>
-                            <h4 className="text-white font-semibold mb-4">Company</h4>
-                            <ul className="space-y-2 text-white/60">
-                                <li><Link href="#about" className="hover:text-white transition-colors">About</Link></li>
-                                <li><Link href="#work" className="hover:text-white transition-colors">Work</Link></li>
-                                <li><Link href="#approach" className="hover:text-white transition-colors">Approach</Link></li>
-                                <li><Link href="#contact" className="hover:text-white transition-colors">Contact</Link></li>
+                            <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Company</h4>
+                            <ul className="space-y-3">
+                                {company.map((c) => (
+                                    <li key={c.label}>
+                                        <Link
+                                            href={c.href}
+                                            className="text-sm text-white/45 hover:text-brand-gold transition-colors duration-200"
+                                        >
+                                            {c.label}
+                                        </Link>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
+
                         <div>
-                            <h4 className="text-white font-semibold mb-4">Socials</h4>
-                            <ul className="space-y-2 text-white/60">
-                                <li><Link href="#" className="hover:text-white transition-colors">Twitter</Link></li>
-                                <li><Link href="#" className="hover:text-white transition-colors">LinkedIn</Link></li>
-                                <li><Link href="#" className="hover:text-white transition-colors">Instagram</Link></li>
+                            <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Connect</h4>
+                            <ul className="space-y-3">
+                                {socials.map((s) => {
+                                    const Icon = s.icon;
+                                    return (
+                                        <li key={s.label}>
+                                            <Link
+                                                href={s.href}
+                                                className="inline-flex items-center gap-2 text-sm text-white/45 hover:text-brand-gold transition-colors duration-200"
+                                            >
+                                                <Icon className="h-3.5 w-3.5" />
+                                                {s.label}
+                                            </Link>
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-white/40 text-sm">
-                    <p>© 2024 TheFortune.Club. All rights reserved.</p>
-                    <div className="flex gap-8">
-                        <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
-                        <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
+                {/* Bottom bar */}
+                <div className="pt-8 border-t border-white/8 flex flex-col md:flex-row justify-between items-center gap-4 text-white/30 text-xs">
+                    <p>© 2025 TheFortune.Club. All rights reserved.</p>
+                    <div className="flex gap-6">
+                        <Link href="#" className="hover:text-white/60 transition-colors">Privacy Policy</Link>
+                        <Link href="#" className="hover:text-white/60 transition-colors">Terms of Service</Link>
                     </div>
                 </div>
 
-                <div className="mt-8 flex justify-center w-full overflow-hidden">
+                {/* Curved marquee */}
+                <div className="mt-10 flex justify-center w-full overflow-hidden">
                     <CurvedLoop
-                        marqueeText="THE FORTUNE CLUB • BUILD YOUR FUTURE • "
+                        marqueeText="THE FORTUNE CLUB • BUILD YOUR DIGITAL FUTURE • AI-POWERED DELIVERY • "
                         speed={0.5}
                         curveAmount={80}
-                        className="opacity-80 hover:opacity-100 transition-opacity text-brand-gold"
+                        className="opacity-60 hover:opacity-90 transition-opacity text-brand-gold"
                     />
                 </div>
             </div>
